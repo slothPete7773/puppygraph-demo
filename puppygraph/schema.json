@@ -1,0 +1,453 @@
+{
+  "catalogs": [
+    {
+      "name": "customer_domain",
+      "type": "clickhouse",
+      "jdbc": {
+        "username": "admin",
+        "password": "admin",
+        "jdbcUri": "jdbc:clickhouse://clickhouse-server:8123/customer_domain",
+        "driverClass": "com.clickhouse.jdbc.ClickHouseDriver",
+        "enableMetaCache": "true",
+        "metaCacheExpireSec": "600"
+      }
+    }
+  ],
+  "graph": {
+    "vertices": [
+      {
+        "label": "customer",
+        "oneToOne": {
+          "tableSource": {
+            "catalog": "customer_domain",
+            "schema": "customer_domain",
+            "table": "customer"
+          },
+          "id": {
+            "fields": [
+              {
+                "type": "STRING",
+                "field": "customer_id",
+                "alias": "puppy_id_customer_id"
+              }
+            ]
+          },
+          "attributes": [
+            {
+              "type": "STRING",
+              "field": "customer_id",
+              "alias": "customer_id"
+            },
+            {
+              "type": "STRING",
+              "field": "first_name",
+              "alias": "first_name"
+            },
+            {
+              "type": "STRING",
+              "field": "last_name",
+              "alias": "last_name"
+            },
+            {
+              "type": "STRING",
+              "field": "email",
+              "alias": "email"
+            },
+            {
+              "type": "STRING",
+              "field": "phone",
+              "alias": "phone"
+            },
+            {
+              "type": "DATE",
+              "field": "date_of_birth",
+              "alias": "date_of_birth"
+            },
+            {
+              "type": "DATETIME",
+              "field": "registration_date",
+              "alias": "registration_date"
+            },
+            {
+              "type": "STRING",
+              "field": "customer_status",
+              "alias": "customer_status"
+            },
+            {
+              "type": "STRING",
+              "field": "loyalty_tier",
+              "alias": "loyalty_tier"
+            },
+            {
+              "type": "DECIMAL(15,2)",
+              "field": "total_lifetime_value",
+              "alias": "total_lifetime_value"
+            },
+            {
+              "type": "DATETIME",
+              "field": "created_at",
+              "alias": "created_at"
+            },
+            {
+              "type": "DATETIME",
+              "field": "updated_at",
+              "alias": "updated_at"
+            }
+          ]
+        }
+      },
+      {
+        "label": "address",
+        "oneToOne": {
+          "tableSource": {
+            "catalog": "customer_domain",
+            "schema": "customer_domain",
+            "table": "customer_address"
+          },
+          "id": {
+            "fields": [
+              {
+                "type": "STRING",
+                "field": "address_id",
+                "alias": "puppy_id_address_id"
+              }
+            ]
+          },
+          "attributes": [
+            {
+              "type": "STRING",
+              "field": "address_id",
+              "alias": "address_id"
+            },
+            {
+              "type": "STRING",
+              "field": "customer_id",
+              "alias": "customer_id"
+            },
+            {
+              "type": "STRING",
+              "field": "address_type",
+              "alias": "address_type"
+            },
+            {
+              "type": "STRING",
+              "field": "street_address",
+              "alias": "street_address"
+            },
+            {
+              "type": "STRING",
+              "field": "city",
+              "alias": "city"
+            },
+            {
+              "type": "STRING",
+              "field": "state",
+              "alias": "state"
+            },
+            {
+              "type": "STRING",
+              "field": "postal_code",
+              "alias": "postal_code"
+            },
+            {
+              "type": "STRING",
+              "field": "country",
+              "alias": "country"
+            },
+            {
+              "type": "BOOLEAN",
+              "field": "is_primary",
+              "alias": "is_primary"
+            },
+            {
+              "type": "BOOLEAN",
+              "field": "is_verified",
+              "alias": "is_verified"
+            },
+            {
+              "type": "DATETIME",
+              "field": "created_at",
+              "alias": "created_at"
+            },
+            {
+              "type": "DATETIME",
+              "field": "updated_at",
+              "alias": "updated_at"
+            }
+          ]
+        }
+      },
+      {
+        "label": "transaction",
+        "oneToOne": {
+          "tableSource": {
+            "catalog": "customer_domain",
+            "schema": "customer_domain",
+            "table": "customer_transaction"
+          },
+          "id": {
+            "fields": [
+              {
+                "type": "STRING",
+                "field": "transaction_id",
+                "alias": "puppy_id_transaction_id"
+              }
+            ]
+          },
+          "attributes": [
+            {
+              "type": "STRING",
+              "field": "transaction_id",
+              "alias": "transaction_id"
+            },
+            {
+              "type": "STRING",
+              "field": "customer_id",
+              "alias": "customer_id"
+            },
+            {
+              "type": "DATETIME",
+              "field": "transaction_date",
+              "alias": "transaction_date"
+            },
+            {
+              "type": "STRING",
+              "field": "transaction_type",
+              "alias": "transaction_type"
+            },
+            {
+              "type": "DECIMAL(15,2)",
+              "field": "amount",
+              "alias": "amount"
+            },
+            {
+              "type": "STRING",
+              "field": "currency",
+              "alias": "currency"
+            },
+            {
+              "type": "STRING",
+              "field": "payment_method",
+              "alias": "payment_method"
+            },
+            {
+              "type": "STRING",
+              "field": "status",
+              "alias": "status"
+            },
+            {
+              "type": "STRING",
+              "field": "order_id",
+              "alias": "order_id"
+            },
+            {
+              "type": "STRING",
+              "field": "description",
+              "alias": "description"
+            },
+            {
+              "type": "DATETIME",
+              "field": "created_at",
+              "alias": "created_at"
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "label": "lives_at",
+        "fromVertex": "customer",
+        "toVertex": "address",
+        "tableSource": {
+          "catalog": "customer_domain",
+          "schema": "customer_domain",
+          "table": "customer_address"
+        },
+        "id": {
+          "fields": [
+            {
+              "type": "STRING",
+              "field": "address_id",
+              "alias": "puppy_id_address_id"
+            }
+          ]
+        },
+        "fromId": {
+          "fields": [
+            {
+              "type": "STRING",
+              "field": "customer_id",
+              "alias": "puppy_from_customer_id"
+            }
+          ]
+        },
+        "toId": {
+          "fields": [
+            {
+              "type": "STRING",
+              "field": "address_id",
+              "alias": "puppy_to_address_id"
+            }
+          ]
+        },
+        "attributes": [
+          {
+            "type": "STRING",
+            "field": "address_id",
+            "alias": "address_id"
+          },
+          {
+            "type": "STRING",
+            "field": "customer_id",
+            "alias": "customer_id"
+          },
+          {
+            "type": "STRING",
+            "field": "address_type",
+            "alias": "address_type"
+          },
+          {
+            "type": "STRING",
+            "field": "street_address",
+            "alias": "street_address"
+          },
+          {
+            "type": "STRING",
+            "field": "city",
+            "alias": "city"
+          },
+          {
+            "type": "STRING",
+            "field": "state",
+            "alias": "state"
+          },
+          {
+            "type": "STRING",
+            "field": "postal_code",
+            "alias": "postal_code"
+          },
+          {
+            "type": "STRING",
+            "field": "country",
+            "alias": "country"
+          },
+          {
+            "type": "BOOLEAN",
+            "field": "is_primary",
+            "alias": "is_primary"
+          },
+          {
+            "type": "BOOLEAN",
+            "field": "is_verified",
+            "alias": "is_verified"
+          },
+          {
+            "type": "DATETIME",
+            "field": "created_at",
+            "alias": "created_at"
+          },
+          {
+            "type": "DATETIME",
+            "field": "updated_at",
+            "alias": "updated_at"
+          }
+        ]
+      },
+      {
+        "label": "creates",
+        "fromVertex": "customer",
+        "toVertex": "transaction",
+        "tableSource": {
+          "catalog": "customer_domain",
+          "schema": "customer_domain",
+          "table": "customer_transaction"
+        },
+        "id": {
+          "fields": [
+            {
+              "type": "STRING",
+              "field": "transaction_id",
+              "alias": "puppy_id_transaction_id"
+            }
+          ]
+        },
+        "fromId": {
+          "fields": [
+            {
+              "type": "STRING",
+              "field": "customer_id",
+              "alias": "puppy_from_customer_id"
+            }
+          ]
+        },
+        "toId": {
+          "fields": [
+            {
+              "type": "STRING",
+              "field": "transaction_id",
+              "alias": "puppy_to_transaction_id"
+            }
+          ]
+        },
+        "attributes": [
+          {
+            "type": "STRING",
+            "field": "transaction_id",
+            "alias": "transaction_id"
+          },
+          {
+            "type": "STRING",
+            "field": "customer_id",
+            "alias": "customer_id"
+          },
+          {
+            "type": "DATETIME",
+            "field": "transaction_date",
+            "alias": "transaction_date"
+          },
+          {
+            "type": "STRING",
+            "field": "transaction_type",
+            "alias": "transaction_type"
+          },
+          {
+            "type": "DECIMAL(15,2)",
+            "field": "amount",
+            "alias": "amount"
+          },
+          {
+            "type": "STRING",
+            "field": "currency",
+            "alias": "currency"
+          },
+          {
+            "type": "STRING",
+            "field": "payment_method",
+            "alias": "payment_method"
+          },
+          {
+            "type": "STRING",
+            "field": "status",
+            "alias": "status"
+          },
+          {
+            "type": "STRING",
+            "field": "order_id",
+            "alias": "order_id"
+          },
+          {
+            "type": "STRING",
+            "field": "description",
+            "alias": "description"
+          },
+          {
+            "type": "DATETIME",
+            "field": "created_at",
+            "alias": "created_at"
+          }
+        ]
+      }
+    ]
+  }
+}
