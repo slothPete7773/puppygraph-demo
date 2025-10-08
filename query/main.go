@@ -12,13 +12,10 @@ import (
 func main() {
 	// Creating the connection to the PuppyGraph.
 	query := `
-    USING enableCypherEngineProperties 'true'
-    MATCH (c:customer)-[r:creates]->(t:transaction)
-    WHERE t.payment_method = 'debit_card' and t.status = 'failed'
-    RETURN
-      c, r, t
-    ORDER BY t.transaction_id
-    LIMIT 10
+    USING enableCypherEngineProperties 'true' 
+    MATCH (n:address)<-[r]-(m:customer)-[r2]->(o:transaction)
+    RETURN n, r, m, r2, o
+    limit 1000
     `
 
 	data, err := QueryGraph(query)
@@ -64,14 +61,20 @@ func QueryGraph(queryStmt string) (GraphData, error) {
 
 	for results.Next() {
 		record := results.Record()
-		if node, ok := record.Get("c"); ok {
+		if node, ok := record.Get("n"); ok {
 			response.Nodes = append(response.Nodes, node.(neo4j.Node))
 		}
-		if node, ok := record.Get("t"); ok {
+		if node, ok := record.Get("m"); ok {
+			response.Nodes = append(response.Nodes, node.(neo4j.Node))
+		}
+		if node, ok := record.Get("o"); ok {
 			response.Nodes = append(response.Nodes, node.(neo4j.Node))
 		}
 
 		if rel, ok := record.Get("r"); ok {
+			response.Edges = append(response.Edges, rel.(neo4j.Relationship))
+		}
+		if rel, ok := record.Get("r2"); ok {
 			response.Edges = append(response.Edges, rel.(neo4j.Relationship))
 		}
 
